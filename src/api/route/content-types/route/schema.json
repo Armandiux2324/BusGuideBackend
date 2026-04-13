@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "routes",
+  "info": {
+    "singularName": "route",
+    "pluralName": "routes",
+    "displayName": "Route"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "stops": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::stop.stop",
+      "mappedBy": "route"
+    },
+    "bus": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::bus.bus",
+      "inversedBy": "routes"
+    },
+    "direction": {
+      "type": "string"
+    }
+  }
+}
