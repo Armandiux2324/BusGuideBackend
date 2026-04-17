@@ -12,37 +12,12 @@ export default factories.createCoreController('api::stop.stop', {
     async findAll() {
         const stops = await strapi.documents('api::stop.stop').findMany({
             populate: {
-                route: true
+                routes: true
             },
             orderBy: { name: 'ASC' },
         });
 
-        const routes = await strapi.documents('api::route.route').findMany({
-            populate: {
-                bus: true,
-                stops: true
-            }
-        });
-
-        routes.forEach(route => {
-            console.log(
-                route.bus?.name,
-                route.stops?.map((s: any) => s.documentId)
-            );
-        });
-
-        return stops.map(stop => {
-            const routesForStop = routes.filter(route =>
-                route.stops?.some((s: any) =>
-                    s.documentId === stop.documentId
-                )
-            );
-
-            return {
-                ...stop,
-                routes: routesForStop
-            };
-        });
+        return { data: stops };
     },
 
     async find(ctx) {
@@ -53,7 +28,7 @@ export default factories.createCoreController('api::stop.stop', {
         const pageSize = Number(body.pageSize ?? query.pageSize ?? 20);
 
         const stops = await strapi.documents('api::stop.stop').findMany({
-            populate: { route: true },
+            populate: { routes: true },
             orderBy: { name: 'ASC' },
             limit: pageSize,
             offset: (page - 1) * pageSize
@@ -77,7 +52,7 @@ export default factories.createCoreController('api::stop.stop', {
 
         const route = await strapi.documents('api::stop.stop').findOne({
             documentId: id,
-            populate: { route: true },
+            populate: { routes: true },
         });
 
         return { data: route };
@@ -98,7 +73,7 @@ export default factories.createCoreController('api::stop.stop', {
         const stop = await strapi.documents('api::stop.stop').update({
             documentId: id,
             data: updateData,
-            populate: { route: true }
+            populate: { routes: true }
         });
 
         return { data: stop };
@@ -131,7 +106,7 @@ export default factories.createCoreController('api::stop.stop', {
                     $contains: name
                 }
             },
-            populate: { route: true },
+            populate: { routes: true },
             orderBy: { name: 'ASC' },
             limit: pageSize,
             offset: (page - 1) * pageSize
@@ -157,7 +132,3 @@ export default factories.createCoreController('api::stop.stop', {
     },
 
 });
-
-function attachRoutesToStops(stops: { id: ID; documentId: DocumentID; route?: { id: ID; documentId: DocumentID; bus?: { id: ID; documentId: DocumentID; locale?: string; createdAt?: DateTimeValue; createdBy?: { id: ID; documentId: DocumentID; locale?: string; email?: string; password?: string; createdAt?: DateTimeValue; createdBy?: /*elided*/ any; localizations?: /*elided*/ any[]; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; updatedBy?: /*elided*/ any; roles?: { id: ID; documentId: DocumentID; locale?: string; createdAt?: DateTimeValue; createdBy?: /*elided*/ any; description?: string; localizations?: /*elided*/ any[]; name?: string; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; updatedBy?: /*elided*/ any; permissions?: { id: ID; documentId: DocumentID; role?: /*elided*/ any; locale?: string; createdAt?: DateTimeValue; createdBy?: /*elided*/ any; conditions?: JSONValue; localizations?: /*elided*/ any[]; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; updatedBy?: /*elided*/ any; action?: string; actionParameters?: JSONValue; properties?: JSONValue; subject?: string; }[]; code?: string; users?: /*elided*/ any[]; }[]; blocked?: boolean; firstname?: string; isActive?: boolean; lastname?: string; preferedLanguage?: string; registrationToken?: string; resetPasswordToken?: string; username?: string; }; localizations?: /*elided*/ any[]; name?: string; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; updatedBy?: { id: ID; documentId: DocumentID; locale?: string; email?: string; password?: string; createdAt?: DateTimeValue; createdBy?: /*elided*/ any; localizations?: /*elided*/ any[]; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; updatedBy?: /*elided*/ any; roles?: { id: ID; documentId: DocumentID; locale?: string; createdAt?: DateTimeValue; createdBy?: /*elided*/ any; description?: string; localizations?: /*elided*/ any[]; name?: string; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; updatedBy?: /*elided*/ any; permissions?: { id: ID; documentId: DocumentID; role?: /*elided*/ any; locale?: string; createdAt?: DateTimeValue; createdBy?: /*elided*/ any; conditions?: JSONValue; localizations?: /*elided*/ any[]; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; updatedBy?: /*elided*/ any; action?: string; actionParameters?: JSONValue; properties?: JSONValue; subject?: string; }[]; code?: string; users?: /*elided*/ any[]; }[]; blocked?: boolean; firstname?: string; isActive?: boolean; lastname?: string; preferedLanguage?: string; registrationToken?: string; resetPasswordToken?: string; username?: string; }; active?: boolean; color?: string; routes?: /*elided*/ any[]; }; locale?: string; stops?: { id: ID; documentId: DocumentID; route?: /*elided*/ any; locale?: string; createdAt?: DateTimeValue; createdBy?: { id: ID; documentId: DocumentID; locale?: string; email?: string; password?: string; createdAt?: DateTimeValue; createdBy?: /*elided*/ any; localizations?: /*elided*/ any[]; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; updatedBy?: /*elided*/ any; roles?: { id: ID; documentId: DocumentID; locale?: string; createdAt?: DateTimeValue; createdBy?: /*elided*/ any; description?: string; localizations?: /*elided*/ any[]; name?: string; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; updatedBy?: /*elided*/ any; permissions?: { id: ID; documentId: DocumentID; role?: /*elided*/ any; locale?: string; createdAt?: DateTimeValue; createdBy?: /*elided*/ any; conditions?: JSONValue; localizations?: /*elided*/ any[]; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; updatedBy?: /*elided*/ any; action?: string; actionParameters?: JSONValue; properties?: JSONValue; subject?: string; }[]; code?: string; users?: /*elided*/ any[]; }[]; blocked?: boolean; firstname?: string; isActive?: boolean; lastname?: string; preferedLanguage?: string; registrationToken?: string; resetPasswordToken?: string; username?: string; }; description?: string; latitude?: number; localizations?: /*elided*/ any[]; longitude?: number; name?: string; order?: number; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; updatedBy?: { id: ID; documentId: DocumentID; locale?: string; email?: string; password?: string; createdAt?: DateTimeValue; createdBy?: /*elided*/ any; localizations?: /*elided*/ any[]; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; updatedBy?: /*elided*/ any; roles?: { id: ID; documentId: DocumentID; locale?: string; createdAt?: DateTimeValue; createdBy?: /*elided*/ any; description?: string; localizations?: /*elided*/ any[]; name?: string; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; updatedBy?: /*elided*/ any; permissions?: { id: ID; documentId: DocumentID; role?: /*elided*/ any; locale?: string; createdAt?: DateTimeValue; createdBy?: /*elided*/ any; conditions?: JSONValue; localizations?: /*elided*/ any[]; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; updatedBy?: /*elided*/ any; action?: string; actionParameters?: JSONValue; properties?: JSONValue; subject?: string; }[]; code?: string; users?: /*elided*/ any[]; }[]; blocked?: boolean; firstname?: string; isActive?: boolean; lastname?: string; preferedLanguage?: string; registrationToken?: string; resetPasswordToken?: string; username?: string; }; }[]; createdAt?: DateTimeValue; createdBy?: { id: ID; documentId: DocumentID; locale?: string; email?: string; password?: string; createdAt?: DateTimeValue; createdBy?: /*elided*/ any; localizations?: /*elided*/ any[]; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; updatedBy?: /*elided*/ any; roles?: { id: ID; documentId: DocumentID; locale?: string; createdAt?: DateTimeValue; createdBy?: /*elided*/ any; description?: string; localizations?: /*elided*/ any[]; name?: string; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; updatedBy?: /*elided*/ any; permissions?: { id: ID; documentId: DocumentID; role?: /*elided*/ any; locale?: string; createdAt?: DateTimeValue; createdBy?: /*elided*/ any; conditions?: JSONValue; localizations?: /*elided*/ any[]; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; updatedBy?: /*elided*/ any; action?: string; actionParameters?: JSONValue; properties?: JSONValue; subject?: string; }[]; code?: string; users?: /*elided*/ any[]; }[]; blocked?: boolean; firstname?: string; isActive?: boolean; lastname?: string; preferedLanguage?: string; registrationToken?: string; resetPasswordToken?: string; username?: string; }; localizations?: /*elided*/ any[]; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; updatedBy?: { id: ID; documentId: DocumentID; locale?: string; email?: string; password?: string; createdAt?: DateTimeValue; createdBy?: /*elided*/ any; localizations?: /*elided*/ any[]; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; updatedBy?: /*elided*/ any; roles?: { id: ID; documentId: DocumentID; locale?: string; createdAt?: DateTimeValue; createdBy?: /*elided*/ any; description?: string; localizations?: /*elided*/ any[]; name?: string; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; updatedBy?: /*elided*/ any; permissions?: { id: ID; documentId: DocumentID; role?: /*elided*/ any; locale?: string; createdAt?: DateTimeValue; createdBy?: /*elided*/ any; conditions?: JSONValue; localizations?: /*elided*/ any[]; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; updatedBy?: /*elided*/ any; action?: string; actionParameters?: JSONValue; properties?: JSONValue; subject?: string; }[]; code?: string; users?: /*elided*/ any[]; }[]; blocked?: boolean; firstname?: string; isActive?: boolean; lastname?: string; preferedLanguage?: string; registrationToken?: string; resetPasswordToken?: string; username?: string; }; coordinates?: JSONValue; direction?: string; }; locale?: string; createdAt?: DateTimeValue; description?: string; latitude?: number; longitude?: number; name?: string; order?: number; publishedAt?: DateTimeValue; updatedAt?: DateTimeValue; }[]) {
-    throw new Error('Function not implemented.');
-}

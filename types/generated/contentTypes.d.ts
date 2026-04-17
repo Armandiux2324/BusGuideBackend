@@ -480,7 +480,7 @@ export interface ApiRouteRoute extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::route.route'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    stops: Schema.Attribute.Relation<'oneToMany', 'api::stop.stop'>;
+    stops: Schema.Attribute.Relation<'manyToMany', 'api::stop.stop'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -510,7 +510,7 @@ export interface ApiStopStop extends Struct.CollectionTypeSchema {
     name: Schema.Attribute.String & Schema.Attribute.Required;
     order: Schema.Attribute.Integer;
     publishedAt: Schema.Attribute.DateTime;
-    route: Schema.Attribute.Relation<'manyToOne', 'api::route.route'>;
+    routes: Schema.Attribute.Relation<'manyToMany', 'api::route.route'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

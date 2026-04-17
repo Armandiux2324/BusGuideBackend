@@ -27,9 +27,9 @@
     "description": {
       "type": "text"
     },
-    "route": {
+    "routes": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "api::route.route",
       "inversedBy": "stops"
     }
