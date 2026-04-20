@@ -13,9 +13,9 @@
   "attributes": {
     "stops": {
       "type": "relation",
-      "relation": "manyToMany",
+      "relation": "oneToMany",
       "target": "api::stop.stop",
-      "mappedBy": "routes"
+      "mappedBy": "route"
     },
     "bus": {
       "type": "relation",

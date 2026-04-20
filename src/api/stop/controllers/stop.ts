@@ -12,7 +12,7 @@ export default factories.createCoreController('api::stop.stop', {
     async findAll() {
         const stops = await strapi.documents('api::stop.stop').findMany({
             populate: {
-                routes: true
+                route: true
             },
             orderBy: { name: 'ASC' },
         });
@@ -28,7 +28,7 @@ export default factories.createCoreController('api::stop.stop', {
         const pageSize = Number(body.pageSize ?? query.pageSize ?? 20);
 
         const stops = await strapi.documents('api::stop.stop').findMany({
-            populate: { routes: true },
+            populate: { route: true },
             orderBy: { name: 'ASC' },
             limit: pageSize,
             offset: (page - 1) * pageSize
@@ -52,7 +52,7 @@ export default factories.createCoreController('api::stop.stop', {
 
         const route = await strapi.documents('api::stop.stop').findOne({
             documentId: id,
-            populate: { routes: true },
+            populate: { route: true },
         });
 
         return { data: route };
@@ -73,7 +73,7 @@ export default factories.createCoreController('api::stop.stop', {
         const stop = await strapi.documents('api::stop.stop').update({
             documentId: id,
             data: updateData,
-            populate: { routes: true }
+            populate: { route: true }
         });
 
         return { data: stop };
@@ -106,7 +106,7 @@ export default factories.createCoreController('api::stop.stop', {
                     $contains: name
                 }
             },
-            populate: { routes: true },
+            populate: { route: true },
             orderBy: { name: 'ASC' },
             limit: pageSize,
             offset: (page - 1) * pageSize
